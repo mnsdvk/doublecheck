@@ -1,0 +1,23 @@
+// Drives the whole demo through the real browser UI (real MCP traffic) and captures screenshots.
+import { createRequire } from 'node:module';
+const { chromium } = createRequire('/opt/npm-tools/node_modules/x.js')('playwright');
+const [base, out] = [process.argv[2], process.argv[3]];
+const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1440, height: 1080 } });
+const errors = []; p.on('pageerror', e => errors.push(String(e))); p.on('console', m => m.type() === 'error' && errors.push(m.text()));
+const dev = p.locator('.device'); const shot = async (n, full) => { await p.waitForTimeout(500); await (full ? p : dev).screenshot({ path: `${out}/${n}.png` }); };
+const say = async (t) => { await p.fill('#utt', t); await p.click('button[type=submit]'); };
+await p.goto(base); await p.waitForSelector('.conn[data-state=ok]'); await p.waitForSelector('.reps'); await shot('01-home', true);
+await say('The kitchen leak sensor is wet. Close the main water valve.');
+await p.waitForSelector('.said-done', { timeout: 10000 }); await shot('02-said-done');
+await p.waitForSelector('.contra', { timeout: 15000 }); await shot('03-valve-problem');
+await p.click('.brand-btn'); await p.waitForSelector('.rep-bad'); await shot('03b-home-conflict'); await p.click('.rep-bad'); await p.waitForSelector('.contra');
+await p.click('button:has-text("Evidence")'); await p.waitForSelector('.drawer'); await shot('04-valve-evidence'); await p.keyboard.press('Escape');
+await p.click('button:has-text("Send the close command again")'); await p.waitForSelector('.sheet'); await shot('05-approve');
+await p.click('.sheet button:has-text("Yes, do it")'); await p.waitForSelector('.ba', { timeout: 15000 }); await shot('06-valve-fixed');
+await p.click('.toggle:has-text("Inspector")'); await shot('07-inspector', true); await p.click('.inspector .link');
+await say('Is the bathroom geyser getting slower?'); await p.waitForSelector('.bigchart', { timeout: 10000 }); await shot('08-geyser');
+await say('How did the floor cleaner do today?'); await p.waitForSelector('.bigchart', { timeout: 10000 }); await shot('09-cleaner');
+await say('Was everything actually done tonight?'); await p.waitForSelector('.night', { timeout: 10000 }); await shot('10-night');
+await p.click('.item:has-text("front door lock")'); await p.waitForSelector('.drawer'); await shot('11-lock-evidence'); await p.keyboard.press('Escape');
+await say('what is the weather'); await p.waitForSelector('.error-view'); await shot('12-unknown');
+console.log('page errors:', errors.length ? errors : 'none'); await b.close();

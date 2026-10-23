@@ -1,0 +1,2 @@
+Lora (variable) is distributed under the SIL Open Font License 1.1 (Cyreal / Google Fonts).
+This copy was taken from the build workspace's installed Google Fonts. Upstream: https://github.com/cyrealtype/Lora-Cyrillic

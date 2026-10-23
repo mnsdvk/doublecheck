@@ -1,0 +1,31 @@
+{
+  "name": "doublecheck",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Doublecheck: Alexa said done. Did it work? A real MCP server that checks what devices and agents report against independent evidence, plus a simulated Alexa+ host.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "start": "node scripts/build.ts && node server/index.ts",
+    "dev": "node scripts/build.ts && node server/index.ts --dev",
+    "server": "node server/index.ts",
+    "seed": "node scripts/seed.ts",
+    "benchmark": "node scripts/benchmark.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test --test-timeout=60000 test/*.test.ts"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+host/dist/
+*.jsonl
+.env
+.env.*
+!.env.example
+SUBMISSION.md
+.kiro/settings/
