@@ -45,12 +45,12 @@ Kiro Crew completed this in 3 minutes 19 seconds using about 5.33 credits. Doubl
 npm install
 npm test
 npm run seed        # optional: writes the demo history
-npm run dev         # builds the UI and starts http://localhost:8787
+npm run dev         # builds the UI and starts http://127.0.0.1:8787
 npm run benchmark   # regenerates BENCHMARK.md
 npm run typecheck
 ```
 
-Open http://localhost:8787. The home screen opens on "3 things need a look". Open the water valve to see the contradiction and approve the simulated fix, then the geyser and the floor cleaner. Use the date picker to see any of the last 30 days. The small circular arrow resets the demo data.
+Open http://127.0.0.1:8787. The home screen opens on "3 things need a look". Open the water valve to see the contradiction and approve the simulated fix, then the geyser and the floor cleaner. Use the date picker to see any of the last 30 days. The small circular arrow resets the demo data.
 
 Cost: ₹0. No API keys, no cloud, no paid services; local file storage only.
 
