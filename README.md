@@ -12,7 +12,9 @@ Doublecheck is an MCP server that checks what a device or agent **reported** aga
 | Bathroom geyser | Gradual change | Every cycle ends fine, but heating time now takes about 1.7 times as long as comparable earlier cycles, built up over the last five weeks, after months of steady cycles. Compared only with earlier cycles of the same temperature rise, against a per-setting baseline. → **Unusual change; cause not established.** |
 | Floor cleaner | Abnormal execution | Run "completes" but with 5 pauses (usual 0) and 63.8 min (usual 48.7), using only the device's own run log → **Completed with an anomaly.** |
 
-A **night check** ("Was everything actually done tonight?") aggregates these and keeps timing straight: right now / from the last run / over recent weeks (not tonight) / could not confirm / confirmed. A front-door lock with no independent sensor stays **Not verified**, not "failed".
+Doublecheck is not limited to these three devices. A device is described by its expected outcome, the independent evidence that can confirm it, and its history, and it then uses one of the three checks above. The demo also runs the same checks on the bedroom AC (power draw after "off") and the living-room lights (light level after "off"). A device with no independent evidence, like the front-door lock, stays Not verified instead of guessing. The three scenes are the ones fully built out and benchmarked.
+
+A **night check** ("Was everything actually done tonight?") aggregates these and keeps timing straight: right now / from the last run / over recent weeks (not tonight) / could not confirm / confirmed. You can open the report for any of the last 30 days. A front-door lock with no independent sensor stays **Not verified**, not "failed".
 
 ## What is real and what is simulated
 
@@ -47,6 +49,8 @@ npm run dev         # builds the UI and starts http://localhost:8787
 npm run benchmark   # regenerates BENCHMARK.md
 npm run typecheck
 ```
+
+Open http://localhost:8787. The home screen opens on "3 things need a look". Open the water valve to see the contradiction and approve the simulated fix, then the geyser and the floor cleaner. Use the date picker to see any of the last 30 days. The small circular arrow resets the demo data.
 
 Cost: ₹0. No API keys, no cloud, no paid services; local file storage only.
 
