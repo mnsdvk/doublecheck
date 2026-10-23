@@ -80,10 +80,23 @@ test('apply_fix on a host that cannot ask does nothing', async () => {
 test('night check over seeded history keeps current, run, trend and unverified apart', async () => {
   const s = await setup({ seed: true });
   const r = await s.call('night_check'); const n = r.structuredContent.night;
-  assert.equal(n.current.length, 0, 'nothing historical is presented as current');
+  assert.deepEqual(n.current.map((f: any) => f.device_id), ['valve_main'], 'tonight\u2019s leak contradiction is the only current finding');
   assert.deepEqual(n.run.map((f: any) => f.device_id), ['cleaner_floor']); assert.deepEqual(n.trend.map((f: any) => f.device_id), ['geyser_bath']);
   assert.deepEqual(n.not_verified.map((f: any) => f.device_id), ['lock_front']); assert.deepEqual(n.worked.map((f: any) => f.device_id).sort(), ['ac_bedroom', 'lights_living']);
-  assert.match(r.structuredContent.spoken, /Over recent weeks, not tonight/); assert.equal(r.structuredContent.checked, 5);
+  assert.match(r.structuredContent.spoken, /Over recent weeks, not tonight/); assert.equal(r.structuredContent.checked, 6);
+  await s.close();
+});
+
+test('night check for an earlier day uses only what was recorded by then and remembers nothing', async () => {
+  const s = await setup({ seed: true }); const size = s.app.store.size;
+  const old = await s.call('night_check', { days_ago: 30 }); const n = old.structuredContent.night;
+  assert.equal(old.structuredContent.days_ago, 30);
+  const ids = (xs: any[]) => xs.map((f: any) => f.device_id).sort();
+  assert.deepEqual(ids(n.worked), ['ac_bedroom', 'cleaner_floor', 'geyser_bath', 'lights_living'], 'a quiet day: the routines that ran were confirmed');
+  assert.deepEqual(ids(n.not_verified), []); assert.equal(n.current.length + n.earlier.length + n.trend.length, 0, 'the geyser was still steady then');
+  const bad = (await s.call('night_check', { days_ago: 27 })).structuredContent.night; assert.deepEqual(ids(bad.earlier), ['ac_bedroom'], 'the one earlier day the AC kept drawing power');
+  assert.equal(s.app.store.size, size, 'looking at the past records nothing');
+  const mid = await s.call('night_check', { days_ago: 90 }); assert.equal(mid.isError, true, 'beyond 30 days is refused');
   await s.close();
 });
 
