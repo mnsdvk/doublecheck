@@ -6,17 +6,17 @@
   "license": "Apache-2.0",
   "type": "module",
   "engines": {
-    "node": ">=22.18"
+    "node": ">=22.6"
   },
   "scripts": {
-    "build": "node scripts/build.ts",
-    "start": "node scripts/build.ts && node server/index.ts",
-    "dev": "node scripts/build.ts && node server/index.ts --dev",
-    "server": "node server/index.ts",
-    "seed": "node scripts/seed.ts",
-    "benchmark": "node scripts/benchmark.ts",
+    "build": "node --experimental-strip-types scripts/build.ts",
+    "start": "node --experimental-strip-types scripts/build.ts && node --experimental-strip-types server/index.ts",
+    "dev": "node --experimental-strip-types scripts/build.ts && node --experimental-strip-types server/index.ts --dev",
+    "server": "node --experimental-strip-types server/index.ts",
+    "seed": "node --experimental-strip-types scripts/seed.ts",
+    "benchmark": "node --experimental-strip-types scripts/benchmark.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "node --test --test-timeout=60000 test/*.test.ts"
+    "test": "node --experimental-strip-types --test --test-timeout=60000 test/*.test.ts"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",

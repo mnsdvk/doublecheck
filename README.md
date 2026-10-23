@@ -39,7 +39,7 @@ What Kiro delivered:
 
 Kiro Crew completed this in 3 minutes 19 seconds using about 5.33 credits. Doublecheck does not call any AWS service at run time, so the AWS contribution is Kiro Crew as a development tool that directly improved the reliability of the core verification engine.
 
-## Run it (Windows PowerShell, Node 22.18+)
+## Run it (Node 22.6 or newer)
 
 ```powershell
 npm install
